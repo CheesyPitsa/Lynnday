@@ -1,7 +1,7 @@
 from __future__ import division, print_function
 import glob
 from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras.layers import Dense, Dropout, Flatten
+from tensorflow.python.keras.layers import Dense, Dropout
 import numpy as np
 import pandas as pd
 import os
@@ -11,6 +11,7 @@ import tensorflow as tf
 # для flask
 from flask import Flask, request, render_template
 from werkzeug.utils import secure_filename
+
 
 app = Flask(__name__)
 
@@ -35,7 +36,7 @@ model.load_weights("models/weight_80_36000.hdf5")
 model.compile(loss='categorical_crossentropy', optimizer='Adam', metrics=['accuracy'])
 
 
-def predict_if_safe(path):
+def predict_if_safe():
     images = glob("uploads/*")
     try:
         prediction_images = []
@@ -43,7 +44,7 @@ def predict_if_safe(path):
             image = tf.keras.utils.load_img(images[i], target_size=(80, 80, 3))
             print(images[i])
             image = tf.keras.utils.img_to_array(image)
-            image = image/255
+            image = image / 255
             prediction_images.append(image)
         prediction_images = np.array(prediction_images)
         prediction_images = base_model.predict(prediction_images)
@@ -83,10 +84,10 @@ def upload():
         file_path = os.path.join(
             basepath, 'uploads', secure_filename(file.filename))
         file.save(file_path)
-        result = predict_if_safe(file_path)
+        result = predict_if_safe()
         return result
     return None
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
