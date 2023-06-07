@@ -9,3 +9,6 @@
 
 https://bitbucket.org/desknsfw/123/src/master/
 
+Датасет выглядит так:
+
+<img src="https://github.com/CheesyPitsa/Lynnday/assets/113666100/ef924733-d98e-4134-8b45-5b4a90b3323d" height="600">
